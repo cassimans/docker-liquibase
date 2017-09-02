@@ -1,0 +1,38 @@
+stages:
+  - build
+  - push
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+build liquibase-service latest:
+  stage: build
+  tags:
+    - dockerbuilds
+  script:
+    - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:latest ./3.5.3
+
+build liquibase-service 3.5.3:
+  stage: build
+  tags:
+    - dockerbuilds
+  script:
+    - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:3.5.3 ./3.5.3
+
+push liquibase-service latest:
+  stage: push
+  tags:
+    - dockerbuilds
+  script:
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - master@francois.cassimans/liquibase-service
+
+push liquibase-service 3.5.3:
+  stage: push
+  tags:
+    - dockerbuilds
+  script:
+    - docker push $CI_REGISTRY_IMAGE:3.5.3
+  only:
+    - master@francois.cassimans/liquibase-service
