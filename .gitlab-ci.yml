@@ -19,13 +19,6 @@ build liquibase-service 3.5.3:
   script:
     - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:3.5.3 ./3.5.3
 
-build liquibase-service 3.0.0:
-  stage: build
-  tags:
-    - dockerbuilds
-  script:
-    - docker build --pull --no-cache -t $CI_REGISTRY_IMAGE:3.0.0 ./3.0.0
-
 push liquibase-service latest:
   stage: push
   tags:
@@ -41,14 +34,5 @@ push liquibase-service 3.5.3:
     - dockerbuilds
   script:
     - docker push $CI_REGISTRY_IMAGE:3.5.3
-  only:
-    - master@francois.cassimans/liquibase-service
-
-push liquibase-service 3.0.0:
-  stage: push
-  tags:
-    - dockerbuilds
-  script:
-    - docker push $CI_REGISTRY_IMAGE:3.0.0
   only:
     - master@francois.cassimans/liquibase-service
